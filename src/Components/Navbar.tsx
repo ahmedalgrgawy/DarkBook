@@ -14,7 +14,7 @@ async function Navbar() {
                     </div>
 
                     <DesktopNavbar />
-                    {/* <MobileNavbar /> */}
+                    <MobileNavbar />
                 </div>
             </div>
         </nav>
