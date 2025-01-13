@@ -1,6 +1,6 @@
 import { currentUser } from "@clerk/nextjs/server"
 import { UnAuthenticatedSidebar } from "./UnAuthenticatedSidebar";
-import { getUserByClerkId } from "@/actions/user.action";
+import { getUserByClerkId } from "@/actions/user.actions";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Separator } from "./ui/separator";
 import { LinkIcon, MapPinIcon } from "lucide-react";
@@ -14,9 +14,6 @@ const SideBar = async () => {
 
     const user = await getUserByClerkId(authUser.id)
     if (!authUser) return null;
-
-    console.log(user);
-
 
     return (
         <div className="sticky top-20">
