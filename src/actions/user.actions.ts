@@ -1,6 +1,7 @@
 "use server"
 import prisma from "@/lib/prisma";
 import { auth, currentUser } from "@clerk/nextjs/server";
+import { revalidatePath } from "next/cache";
 
 
 export const syncUser = async () => {
@@ -94,4 +95,61 @@ export const getRandomUsers = async () => {
         console.log("Error in randomUsers", error);
     }
 
+}
+
+export const followUnFollowUser = async (targetId: string) => {
+    try {
+
+        const currentUserId = await getDbUserId();
+
+        if (!currentUserId) return;
+
+        if (currentUserId === targetId) {
+            throw new Error("You can't follow yourself");
+        }
+
+        const existingFollow = await prisma.follows.findUnique({
+            where: {
+                followerId_followingId: {
+                    followerId: currentUserId,
+                    followingId: targetId
+                }
+            }
+        })
+
+        if (existingFollow) {
+            await prisma.follows.delete({
+                where: {
+                    followerId_followingId: {
+                        followerId: currentUserId,
+                        followingId: targetId
+                    }
+                }
+            })
+        } else {
+            await prisma.$transaction([
+                prisma.notification.create({
+                    data: {
+                        userId: targetId,
+                        type: "FOLLOW",
+                        creatorId: currentUserId
+                    }
+                }),
+                prisma.follows.create({
+                    data: {
+                        followingId: targetId,
+                        followerId: currentUserId
+                    }
+                })
+            ])
+        }
+
+        revalidatePath("/")
+
+        return {
+            success: true
+        }
+    } catch (error) {
+        console.log("Error in followUnFollowUser", error);
+    }
 }

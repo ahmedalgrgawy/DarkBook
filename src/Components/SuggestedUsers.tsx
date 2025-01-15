@@ -8,7 +8,7 @@ import FollowButton from './FollowButton';
 const SuggestedUsers = async () => {
 
     const users = await getRandomUsers()
-    if (!users || users.length < 3) return null;
+    if (!users || users.length === 0) return null;
 
     return (
         <Card>
