@@ -24,7 +24,7 @@ const page = async ({ params }: { params: { username: string } }) => {
     ]);
 
     return (
-        <ProfilePage use  />
+        <ProfilePage user={user} posts={posts} likedPosts={likedPosts} isCurrentUserFollowing={isCurrentUserFollowing} />
     )
 }
 

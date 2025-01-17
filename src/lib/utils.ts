@@ -5,5 +5,3 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-
-export const formattedDate = (date: Date) => format(new Date(date), "MMMM yyyy");
