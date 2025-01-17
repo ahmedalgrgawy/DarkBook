@@ -9,6 +9,7 @@ import { Textarea } from "./ui/textarea"
 import { Button } from "./ui/button"
 import { createPost } from "@/actions/post.actions"
 import toast from "react-hot-toast"
+import ImageUpload from "./ImageUpload"
 
 const CreatePost = () => {
 
@@ -60,7 +61,18 @@ const CreatePost = () => {
                         />
                     </div>
 
-                    {/* upload  */}
+                    {(showImageUpload || imgUrl) && (
+                        <div className="border rounded-lg p-4">
+                            <ImageUpload
+                                endpoint="postImage"
+                                value={imgUrl}
+                                onChange={(url) => {
+                                    setImgUrl(url);
+                                    if (!url) setShowImageUpload(false);
+                                }}
+                            />
+                        </div>
+                    )}
 
                     <div className="flex items-center justify-between border-t pt-4">
                         <div className="flex space-x-2">
