@@ -37,13 +37,13 @@ type ProfilePageType = {
     isCurrentUserFollowing: boolean
 }
 
-const ProfilePage = ({ user, posts, likedPosts, isCurrentUserFollowing: initialIsFollowing }:
+const ProfilePage = ({ user, posts, likedPosts, isCurrentUserFollowing }:
     ProfilePageType
 ) => {
 
     const { user: currentUser } = useUser();
     const [showEditDialog, setShowEditDialog] = useState(false);
-    const [isFollowing, setIsFollowing] = useState(initialIsFollowing);
+    const [isFollowing, setIsFollowing] = useState(isCurrentUserFollowing);
     const [isUpdatingFollow, setIsUpdatingFollow] = useState(false);
     const [editForm, setEditForm] = useState({
         name: user?.name || "",
